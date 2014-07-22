@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 
 class TestClassMain
@@ -22,10 +23,29 @@ class TestClassMain
 
 }; // -----  end of class TestClassMain  -----
 
+template<class T>
+class TestClassMainT
+{
+  public:
+
+    /** TestClassMain constructor  */
+    TestClassMainT ()
+      {
+      std::vector<T> vec;
+      };                             // constructor
+    /** TestClassMain deconstructor  */
+    virtual ~TestClassMainT (){};                            // destructor
+
+
+    T m_A;
+
+}; // -----  end of class TestClassMain  -----
+
 
 int 
 main (int argc, char const* argv[])
 {
+  std::vector<double> vec;
   
   TestClass2 tc;
   tc.print();
@@ -35,6 +55,6 @@ main (int argc, char const* argv[])
 
   TestClassHeader th;
   th.m_Bh= func(30);
-
+  
   return 0;
 }
