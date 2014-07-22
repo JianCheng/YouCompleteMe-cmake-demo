@@ -1,0 +1,1 @@
+.ycm_extra_conf_withdatabase.py
