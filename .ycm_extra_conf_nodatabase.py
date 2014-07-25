@@ -146,10 +146,10 @@ def GetCompilationInfoForFile( filename ):
 
     cppFileList = SOURSE_DICT.get(filename, None);
     if cppFileList:
-        replacement_file = cppFileList[0]
-        compilation_info = database.GetCompilationInfoForFile( replacement_file )
-        if compilation_info.compiler_flags_:
-          return compilation_info
+      replacement_file = cppFileList[0]
+      compilation_info = database.GetCompilationInfoForFile( replacement_file )
+      if compilation_info.compiler_flags_:
+        return compilation_info
 
     return None
   return database.GetCompilationInfoForFile( filename )

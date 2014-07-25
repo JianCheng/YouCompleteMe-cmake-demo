@@ -28,7 +28,7 @@
 #
 # For more information, please refer to <http://unlicense.org/>
 
-import os
+import os, inspect 
 import ycm_core
 
 # These are the compilation flags that will be used in case there's no
@@ -77,7 +77,7 @@ flags = [
 # Most projects will NOT need to set this to anything; you can just change the
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
 # compilation_database_folder = ''
-code_dir = os.path.abspath('.') +'/' 
+code_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))) + '/'
 compilation_database_folder = code_dir+'build'
 
 if os.path.exists( compilation_database_folder ):
@@ -87,11 +87,14 @@ else:
 
 SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c' ]
 
+# default_cpp file for the header files which are not inside SOURSE_DICT
+# defaut_cpp = ''
+defaut_cpp = code_dir+'main.cc'
+
+# header files and their related cpp files
 SOURSE_DICT = { 
     code_dir+'header1.h' : [code_dir+'main.cc'], 
     code_dir+'header1.hxx' : [code_dir+'main.cc'], 
-    code_dir+'header2.h' : [code_dir+'main.cc'], 
-    code_dir+'header2.hxx' : [code_dir+'main.cc'], 
               }
 
 def DirectoryOfThisScript():
@@ -148,11 +151,13 @@ def GetCompilationInfoForFile( filename ):
           return compilation_info
 
     cppFileList = SOURSE_DICT.get(filename, None);
+    if not cppFileList and defaut_cpp!="":
+      cppFileList = [defaut_cpp]
     if cppFileList:
-        replacement_file = cppFileList[0]
-        compilation_info = database.GetCompilationInfoForFile( replacement_file )
-        if compilation_info.compiler_flags_:
-          return compilation_info
+      replacement_file = cppFileList[0]
+      compilation_info = database.GetCompilationInfoForFile( replacement_file )
+      if compilation_info.compiler_flags_:
+        return compilation_info
 
     return None
 
@@ -180,8 +185,8 @@ def FlagsForFile( filename, **kwargs ):
     #   pass
 
     if IsHeaderFile( filename ):
-        for flag in flags:
-            final_flags.append(flag)
+      for flag in flags:
+        final_flags.append(flag)
   else:
     relative_to = DirectoryOfThisScript()
     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
